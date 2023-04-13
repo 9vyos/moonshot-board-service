@@ -1,0 +1,10 @@
+GET localhost:3000/ping
+
+###
+GET localhost:3000
+
+###
+GET localhost:3000/articles
+
+###
+POST localhost:3000/articles
