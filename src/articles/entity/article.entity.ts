@@ -5,13 +5,19 @@ export class Article {
   @PrimaryGeneratedColumn()
   postId: number;
 
-  @Column()
+  @Column({
+    nullable: false,
+  })
   boardId: number;
 
-  @Column()
+  @Column({
+    nullable: false,
+  })
   postTitle: string;
 
-  @Column()
+  @Column({
+    type: 'text',
+  })
   postContent: string | null;
 
   @Column()
