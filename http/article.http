@@ -8,3 +8,15 @@ GET localhost:3000/articles
 
 ###
 POST localhost:3000/articles
+
+
+### create board
+POST localhost:3000/board
+Content-Type: application/json
+
+{
+  "boardName": "test board4"
+}
+
+### get board list
+GET localhost:3000/board
