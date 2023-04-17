@@ -20,3 +20,11 @@ Content-Type: application/json
 
 ### get board list
 GET localhost:3000/board
+
+### create category
+POST {{local_api}}/article/category
+Content-Type: application/json
+
+{
+  "categoryName": "test category3"
+}

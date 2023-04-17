@@ -6,6 +6,10 @@ import { CreateBoardRequest } from './dto/request/create.board.request';
 import { Board } from './entity/board.entity';
 import { ArticleServiceUtils } from './article.service.utils';
 import { BoardInfoResponse } from './dto/response/board.info.response';
+import { CreatePostCategoryRequest } from './dto/request/create.post.category.request';
+import { PostCategory } from './entity/post.category.entity';
+import { PostCategoryInfoResponse } from './dto/response/post.category.info.response';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class ArticlesService {
@@ -14,6 +18,8 @@ export class ArticlesService {
     private articlesRepository: Repository<Article>,
     @InjectRepository(Board)
     private boardRepository: Repository<Board>,
+    @InjectRepository(PostCategory)
+    private categoryRepository: Repository<PostCategory>,
   ) {}
 
   findAll(): Promise<Article[]> {
@@ -32,6 +38,7 @@ export class ArticlesService {
     return this.articlesRepository.save(Article);
   }
 
+  @Transactional()
   async createBoard(request: CreateBoardRequest) {
     await ArticleServiceUtils.validateBoard(
       this.boardRepository,
@@ -46,5 +53,24 @@ export class ArticlesService {
   async retrieveBoard() {
     const boardList = await this.boardRepository.find();
     return boardList.map((board) => BoardInfoResponse.of(board));
+  }
+
+  @Transactional()
+  async createCategory(request: CreatePostCategoryRequest) {
+    await ArticleServiceUtils.validateCategory(
+      this.categoryRepository,
+      request.categoryName,
+    );
+    const category = await this.categoryRepository.save(
+      PostCategory.newCategory(request.categoryName),
+    );
+    return PostCategoryInfoResponse.of(category);
+  }
+
+  async retrieveCategory() {
+    const categoryList = await this.categoryRepository.find();
+    return categoryList.map((category) =>
+      PostCategoryInfoResponse.of(category),
+    );
   }
 }
