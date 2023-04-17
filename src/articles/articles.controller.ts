@@ -10,6 +10,7 @@ import { ArticlesService } from './articles.service';
 import { Article } from './entity/article.entity';
 import { CreateBoardRequest } from './dto/request/create.board.request';
 import { ApiResponse } from '../common/response/api.response';
+import { CreatePostCategoryRequest } from './dto/request/create.post.category.request';
 
 @Controller('/')
 export class ArticlesController {
@@ -49,5 +50,18 @@ export class ArticlesController {
   @Get('board')
   async retrieveBoard() {
     return ApiResponse.success(await this.articleService.retrieveBoard());
+  }
+
+  @Post('article/category')
+  @UsePipes(new ValidationPipe())
+  async createCategory(@Body() request: CreatePostCategoryRequest) {
+    return ApiResponse.success(
+      await this.articleService.createCategory(request),
+    );
+  }
+
+  @Get('article/category')
+  async retrieveCategory() {
+    return ApiResponse.success(await this.articleService.retrieveCategory());
   }
 }
