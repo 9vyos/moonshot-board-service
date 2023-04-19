@@ -5,10 +5,11 @@ import { ArticlesController } from './articles.controller';
 import { Article } from './entity/article.entity';
 import { PostCategory } from './entity/post.category.entity';
 import { Board } from './entity/board.entity';
+import { ArticlesResolver } from './articles.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Article, PostCategory, Board])],
-  providers: [ArticlesService],
+  providers: [ArticlesService, ArticlesResolver],
   controllers: [ArticlesController],
 })
 export class ArticlesModule {}

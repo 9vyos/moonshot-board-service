@@ -8,6 +8,11 @@ import { ArticlesModule } from './articles/articles.module';
 import { ConfigModule } from '@nestjs/config';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -31,6 +36,12 @@ import { DataSource } from 'typeorm';
           throw new Error('Invalid options passed');
         }
         return addTransactionalDataSource(new DataSource(options));
+      },
+    }),
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: {
+        federation: 2,
       },
     }),
     ArticlesModule,
