@@ -17,4 +17,8 @@ export class Board {
   static newBoard(name: string) {
     return new Board(name);
   }
+
+  static mockInstance() {
+    return new Board('test');
+  }
 }
