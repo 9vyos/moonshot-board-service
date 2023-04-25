@@ -20,8 +20,11 @@ GET {{local_api}}/board
 
 ### create category
 POST {{local_api}}/article/category
-Content-Type: application/json
+Content-Type: application/json리
 
 {
   "categoryName": "test category3"
 }
+
+### get category list
+GET {{local_api}}/article/category?size=5&lastPostCategoryId=1

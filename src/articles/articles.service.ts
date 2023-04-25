@@ -10,6 +10,7 @@ import { CreatePostCategoryRequest } from './dto/request/create.post.category.re
 import { PostCategory } from './entity/post.category.entity';
 import { PostCategoryInfoResponse } from './dto/response/post.category.info.response';
 import { Transactional } from 'typeorm-transactional';
+import { PagingPostCategoryRequest } from './dto/request/paging.post-category.request';
 
 @Injectable()
 export class ArticlesService {
@@ -67,8 +68,16 @@ export class ArticlesService {
     return PostCategoryInfoResponse.of(category);
   }
 
-  async retrieveCategory() {
-    const categoryList = await this.categoryRepository.find();
+  async retrieveCategory(request: PagingPostCategoryRequest) {
+    const categoryList = await this.categoryRepository
+      .createQueryBuilder('category')
+      .where('postCategoryId > :lastPostCategoryId', {
+        lastPostCategoryId: request.lastPostCategoryId,
+      })
+      .limit(request.size)
+      .orderBy('postCategoryId', 'DESC')
+      .getMany();
+
     return categoryList.map((category) =>
       PostCategoryInfoResponse.of(category),
     );

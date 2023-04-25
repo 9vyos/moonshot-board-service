@@ -4,6 +4,7 @@ import { CreateBoardRequest } from './dto/request/create.board.request';
 import { BoardInfoResponse } from './dto/response/board.info.response';
 import { PostCategoryInfoResponse } from './dto/response/post.category.info.response';
 import { CreatePostCategoryRequest } from './dto/request/create.post.category.request';
+import { PagingPostCategoryRequest } from './dto/request/paging.post-category.request';
 
 @Resolver()
 export class ArticlesResolver {
@@ -30,7 +31,7 @@ export class ArticlesResolver {
   }
 
   @Query(() => [PostCategoryInfoResponse])
-  async retrieveCategory() {
-    return await this.articlesService.retrieveCategory();
+  async retrieveCategory(request: PagingPostCategoryRequest) {
+    return await this.articlesService.retrieveCategory(request);
   }
 }

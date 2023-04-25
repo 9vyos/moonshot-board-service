@@ -5,12 +5,14 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { Article } from './entity/article.entity';
 import { CreateBoardRequest } from './dto/request/create.board.request';
 import { ApiResponse } from '../common/response/api.response';
 import { CreatePostCategoryRequest } from './dto/request/create.post.category.request';
+import { PagingPostCategoryRequest } from './dto/request/paging.post-category.request';
 
 @Controller('/')
 export class ArticlesController {
@@ -61,7 +63,10 @@ export class ArticlesController {
   }
 
   @Get('article/category')
-  async retrieveCategory() {
-    return ApiResponse.success(await this.articleService.retrieveCategory());
+  async retrieveCategory(@Query() request: PagingPostCategoryRequest) {
+    console.log(request);
+    return ApiResponse.success(
+      await this.articleService.retrieveCategory(request),
+    );
   }
 }
